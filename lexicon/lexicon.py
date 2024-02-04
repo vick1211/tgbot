@@ -1,10 +1,22 @@
-ru_lexicon: dict[str, str|list[str]] = {
-    '/start':'Это тестовая версия бота',
+ru_commands_lexicon: dict[str, str|list[str]] = {
+    '/start':'Для регистрации отправьте команду /fillform',
+    '/fillform': 'Начинаем регистрацию. Если захотите отменить её, отправьте команду /cancel \n Введите свои ФИО',
     '/help':'Эта кнопка пока в разработке',
-    '/delmenu':'Кнопка "Menu" удалена. Если она продолжает отображаться, перезайдите в Telegram'
+    '/delmenu':'Кнопка "Menu" удалена. Если она продолжает отображаться, перезайдите в Telegram',
+    '/cancel':['Процесс был отменен','Отменять нечего. Вы вне машины состояний']
 }
 
-ru_menuCommands_lexicon: dict[str, str] = {
+ru_menuCommands_lexicon: dict[str, str|list[str]] = {
     '/help':'Помощь',
     '/delmenu':'Удалить меню'
+}
+
+ru_processes_lexicon: dict[str, str|list[str]] = {
+    'alreadyRegistered':'Вы вошли в свой аккаунт',
+    'regCancel':'Вы оборвали процесс регистрации. Чтобы начать сначала - отправьте команду /fillform',
+    'nameSent':'Теперь выберите должность',
+    'regComplete':'Спасибо! Вы зарегистрированы в системе',
+    'incorrectName':'Вы ввели неправильные данные',
+    'incorrectPost':'Пожалуйста, пользуйтесь кнопками при выборе должности',
+    'checkData':'Чтобы посмотреть свои данные, отправьте команду /showdata'
 }
