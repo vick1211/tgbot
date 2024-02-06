@@ -23,7 +23,7 @@ class BotDB:
         return self.con.commit()
 
     def add_teacher(self, user_id, name):
-        self.cur.execute("INSERT INTO teachers VALUES (?,?)",(user_id, name))
+        self.cur.execute("INSERT INTO teachers(user_id, ФИО) VALUES (?,?)",(user_id, name))
         return self.con.commit()
 
     def student_exists(self, user_id):
@@ -34,16 +34,26 @@ class BotDB:
         result = self.cur.execute("SELECT id FROM teachers WHERE user_id = ?", (user_id,))
         return bool(len(result.fetchall()))
 
-    def showdata(self, user_id):
+    def show_data(self, user_id):
         if self.student_exists(user_id):
             result = self.cur.execute("SELECT ФИО, класс FROM students WHERE user_id = ?", (user_id,))
             studentData = result.fetchone()
             return 'Имя: ' + studentData[0] + '\n' + 'Должность: Ученик\n' + 'Класс: ' + studentData[1]
         elif self.teacher_exists(user_id):
-            teacherData = self.cur.execute("SELECT ФИО FROM teachers WHERE user_id = ?", (user_id,))
+            result = self.cur.execute("SELECT ФИО FROM teachers WHERE user_id = ?", (user_id,))
             teacherData = result.fetchone()
             return 'Имя: ' + teacherData[0] + '\n' + 'Должность: Учитель'
 
+    def select_id_to_send_message(self, grade):
+        result = self.cur.execute('SELECT user_id FROM students WHERE класс = ?',(grade,))
+        return result.fetchall()
+
+    def delete_user(self,user_id):
+        if self.student_exists(user_id):
+            self.cur.execute("DELETE FROM students WHERE user_id = ?",(user_id,))
+        elif self.teacher_exists(user_id):
+            self.cur.execute("DELETE FROM teachers WHERE user_id = ?", (user_id,))
+        return self.con.commit()
 
     def close_db(self):
         self.con.close()
