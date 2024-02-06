@@ -3,7 +3,7 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from config_data.config import load_config
-from handlers import user_handlers, other_handlers
+from handlers import user_handlers, other_handlers, keyboard_handlers
 from keyboards.set_menu import set_main_menu
 
 async def main() -> None:
@@ -14,6 +14,7 @@ async def main() -> None:
     dp = Dispatcher()
 
     dp.include_router(user_handlers.router)
+    dp.include_router(keyboard_handlers.router)
     dp.include_router(other_handlers.router)
 
     await bot.delete_webhook(drop_pending_updates=True)
